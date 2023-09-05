@@ -59,23 +59,33 @@ const dog = async() => {
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
 //
 
-const joke = async () => {
-  const jokes=await Promise.all([
-    fetch('jokes'),
-    fetch('question')
-  ]);
-  const question = jokes.joke
-  const answer=jokes.answer
- console.log(question,answer)
+const joke = () => {
+  const promise1=new Promise((resolve,reject)=>{
+    const joke=fetch('jokes','question');
+    resolve(joke);
+  
+  });
 
+  const promise2=new Promise((resolve,reject)=>{
+    const answer=fetch('jokes');
+    resolve(answer);
+
+  });
+
+    return Promise.all([promise1,promise2]).then((values)=>{
+      let questions = values[0].joke
+      let answers=values[1].answer
+      let total={question:questions,answer:answers}
+      return total;
+
+    });
 };
+
+
+  
+
  
 
-// const jokes= await fetch('jokes','question')
-// const question=jokes.joke
-// const answer=jokes.answer
-// Promise.all(jokes,question,answer).then(result=>(result))
-  
 
 
 
